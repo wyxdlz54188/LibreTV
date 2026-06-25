@@ -112,10 +112,10 @@ const API_SITES = {
         adult: true
     },
     huangcang: {
-        api: 'https://hsckzy.vip',
+        api: 'https://hsm3.hwzcfz.com',
         name: '黄色仓库',
         adult: true,
-        detail: 'https://hsckzy.vip' // 添加detail URL以便特殊处理
+        detail: 'https://hsm3.hwzcfz.com' // 添加detail URL以便特殊处理
     }
     // 您可以按需添加更多源
 };
