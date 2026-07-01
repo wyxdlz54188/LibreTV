@@ -371,7 +371,7 @@
             if (videoUrl) {
                 initPlayer(videoUrl);
                 
-                // 尝试恢复播放位置：优先URL参数，其次localStorage
+                // 尝试从URL参数中恢复播放位置
                 const position = urlParams.get('position');
                 if (position) {
                     setTimeout(() => {
@@ -383,25 +383,6 @@
                             }
                         }
                     }, 1500);
-                } else {
-                    // 无URL参数时，检查本地存储中是否有上次进度
-                    try {
-                        const progressKey = `videoProgress_${getVideoId()}`;
-                        const saved = JSON.parse(localStorage.getItem(progressKey));
-                        if (saved && saved.position > 10) {
-                            setTimeout(() => {
-                                if (dp && dp.video && dp.video.duration > 0) {
-                                    const targetTime = Math.min(saved.position, dp.video.duration - 5);
-                                    if (targetTime > 0) {
-                                        dp.seek(targetTime);
-                                        showPositionRestoreHint(targetTime);
-                                    }
-                                }
-                            }, 2000);
-                        }
-                    } catch (e) {
-                        // 忽略恢复错误
-                    }
                 }
             } else {
                 showError('无效的视频链接');
