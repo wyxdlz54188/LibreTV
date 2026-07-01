@@ -22,7 +22,12 @@
         }
         #player {
             width: 100%;
-            height: 60vh; /* 视频播放器高度 */
+            height: 40vh;
+        }
+        @media (min-width: 640px) {
+            #player {
+                height: 60vh;
+            }
         }
         .loading-container {
             position: absolute;
@@ -75,9 +80,15 @@
             border-color: #60a5fa !important;
         }
         .episode-grid {
-            max-height: 30vh;
+            max-height: 35vh;
             overflow-y: auto;
-            padding: 1rem 0;
+            padding: 0.5rem 0;
+        }
+        @media (min-width: 640px) {
+            .episode-grid {
+                max-height: 30vh;
+                padding: 1rem 0;
+            }
         }
         .switch {
             position: relative;
@@ -142,17 +153,17 @@
     </style>
 </head>
 <body>
-    <header class="bg-[#111] p-4 flex justify-between items-center border-b border-[#333]">
-        <div class="flex items-center">
+    <header class="bg-[#111] p-3 sm:p-4 flex justify-between items-center border-b border-[#333] gap-2">
+        <div class="flex items-center flex-shrink-0">
             <a href="index.html" class="flex items-center">
-                <svg class="w-8 h-8 mr-2 text-[#00ccff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 mr-1 sm:mr-2 text-[#00ccff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
-                <h1 class="text-xl font-bold gradient-text">LibreTV</h1>
+                <h1 class="text-base sm:text-xl font-bold gradient-text hidden sm:block">LibreTV</h1>
             </a>
         </div>
-        <h2 id="videoTitle" class="text-xl font-semibold truncate flex-1 text-center"></h2>
-        <a href="index.html" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors">
+        <h2 id="videoTitle" class="text-sm sm:text-xl font-semibold truncate flex-1 text-center min-w-0"></h2>
+        <a href="index.html" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors text-xs sm:text-base whitespace-nowrap flex-shrink-0">
             返回首页
         </a>
     </header>
@@ -176,17 +187,17 @@
 
         <!-- 集数导航 -->
         <div class="player-container">
-            <div class="flex justify-between items-center my-4">
-                <button onclick="playPreviousEpisode()" id="prevButton" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors">
-                    <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex justify-between items-center my-3 sm:my-4">
+                <button onclick="playPreviousEpisode()" id="prevButton" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors text-xs sm:text-base flex items-center gap-1">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
-                    上一集
+                    <span class="hidden sm:inline">上一集</span>
                 </button>
-                <span class="text-gray-400" id="episodeInfo">加载中...</span>
-                <button onclick="playNextEpisode()" id="nextButton" class="px-4 py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors">
-                    下一集
-                    <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span class="text-gray-400 text-xs sm:text-sm" id="episodeInfo">加载中...</span>
+                <button onclick="playNextEpisode()" id="nextButton" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#222] hover:bg-[#333] border border-[#333] rounded-lg transition-colors text-xs sm:text-base flex items-center gap-1">
+                    <span class="hidden sm:inline">下一集</span>
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </button>
@@ -195,14 +206,14 @@
 
         <!-- 添加自动播放开关和排序按钮 -->
         <div class="player-container">
-            <div class="flex justify-end items-center mb-4 gap-2">
-                <span class="text-gray-400 text-sm">自动连播</span>
+            <div class="flex justify-end items-center mb-4 gap-2 flex-wrap">
+                <span class="text-gray-400 text-xs sm:text-sm">自动连播</span>
                 <label class="switch">
                     <input type="checkbox" id="autoplayToggle">
                     <span class="slider"></span>
                 </label>
-                <button onclick="toggleEpisodeOrder()" class="ml-4 px-4 py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" id="orderIcon" viewBox="0 0 20 20" fill="currentColor">
+                <button onclick="toggleEpisodeOrder()" class="ml-2 sm:ml-4 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" id="orderIcon" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
                     </svg>
                     <span id="orderText">倒序排列</span>
@@ -213,7 +224,7 @@
         <!-- 集数网格 -->
         <div class="player-container">
             <div class="episode-grid" id="episodesGrid">
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2" id="episodesList">
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1.5 sm:gap-2" id="episodesList">
                     <!-- 集数将在这里动态加载 -->
                     <div class="col-span-full text-center text-gray-400 py-8">加载中...</div>
                 </div>
@@ -433,13 +444,14 @@
                 manifestLoadingRetryDelay: 1000,
                 levelLoadingMaxRetry: 4,
                 levelLoadingRetryDelay: 1000,
-                startLevel: -1,
-                abrEwmaDefaultEstimate: 500000,
+                startLevel: 0,
+                capLevelToPlayerSize: false,
+                abrEwmaDefaultEstimate: 50000000,
                 abrBandWidthFactor: 0.95,
                 abrBandWidthUpFactor: 0.7,
                 abrMaxWithRealBitrate: true,
                 stretchShortVideoTrack: true,
-                appendErrorMaxRetry: 5,  // 增加尝试次数
+                appendErrorMaxRetry: 5,
                 liveSyncDurationCount: 3,
                 liveDurationInfinity: false
             };
@@ -518,6 +530,9 @@
                             hls.attachMedia(video);
                             
                             hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                                hls.currentLevel = 0;
+                                hls.nextLevel = 0;
+                                hls.autoLevelEnabled = false;
                                 video.play().catch(e => {
                                     console.warn('自动播放被阻止:', e);
                                 });
@@ -836,7 +851,7 @@
                 html += `
                     <button id="episode-${realIndex}" 
                             onclick="playEpisode(${realIndex})" 
-                            class="px-4 py-2 ${isActive ? 'episode-active' : 'bg-[#222] hover:bg-[#333]'} border ${isActive ? 'border-blue-500' : 'border-[#333]'} rounded-lg transition-colors text-center episode-btn">
+                            class="px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-base ${isActive ? 'episode-active' : 'bg-[#222] hover:bg-[#333]'} border ${isActive ? 'border-blue-500' : 'border-[#333]'} rounded-lg transition-colors text-center episode-btn">
                         第${realIndex + 1}集
                     </button>
                 `;

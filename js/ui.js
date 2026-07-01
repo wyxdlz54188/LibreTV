@@ -40,17 +40,20 @@ function showNextToast() {
     };
     
     const bgColor = bgColors[type] || bgColors.error;
-    toast.className = `fixed top-4 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ${bgColor} text-white`;
+    toast.className = `fixed top-4 left-2 right-2 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 px-4 sm:px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 z-[70] ${bgColor} text-white`;
+    toastMessage.className = 'text-sm sm:text-base';
     toastMessage.textContent = message;
     
     // 显示提示
     toast.style.opacity = '1';
-    toast.style.transform = 'translateX(-50%) translateY(0)';
+    const isMobile = window.innerWidth < 640;
+    toast.style.transform = isMobile ? 'translateY(0)' : 'translateX(-50%) translateY(0)';
     
     // 3秒后自动隐藏
     setTimeout(() => {
         toast.style.opacity = '0';
-        toast.style.transform = 'translateX(-50%) translateY(-100%)';
+        const isMobileHide = window.innerWidth < 640;
+        toast.style.transform = isMobileHide ? 'translateY(-100%)' : 'translateX(-50%) translateY(-100%)';
         
         // 等待动画完成后显示下一个toast
         setTimeout(() => {

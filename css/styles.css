@@ -214,11 +214,94 @@ body {
 
 @media screen and (max-width: 640px) {
     .footer {
-        padding-bottom: 2rem;
+        padding-bottom: 1rem;
+    }
+    
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .card-hover h3 {
+        min-height: 2rem;
+        font-size: 0.875rem;
+        -webkit-line-clamp: 2;
+    }
+    
+    .card-hover .flex-grow {
+        min-height: 60px;
+    }
+    
+    .card-hover .md\:w-1\/4 {
+        height: 120px;
+    }
+    
+    .card-hover .md\:w-3\/4,
+    .card-hover .w-full {
+        padding: 0.5rem;
+    }
+    
+    .card-hover .text-lg {
+        font-size: 0.875rem;
+    }
+    
+    .search-tag {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .settings-panel {
+        padding: 1rem;
+    }
+    
+    .history-panel {
+        width: 85vw;
+        padding: 1rem;
+    }
+    
+    .history-title {
+        font-size: 0.85rem;
+    }
+    
+    .history-meta {
+        font-size: 0.7rem;
+    }
+    
+    .history-time {
+        font-size: 0.65rem;
+    }
+    
+    .history-info {
+        min-height: 55px;
+    }
+    
+    button, .episode-btn {
+        min-height: 38px;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .episode-grid::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .position-restore-hint {
+        bottom: 50px;
+        left: 5%;
+        right: 5%;
+        transform: translateY(20px);
+        width: 90%;
+    }
+    
+    .position-restore-hint.show {
+        transform: translateY(0);
+    }
+    
+    .position-restore-hint .hint-content {
+        text-align: center;
+        font-size: 0.8rem;
     }
 }
 
-/* 移动端布局优化 */
 @media screen and (max-width: 768px) {
     .card-hover h3 {
         min-height: 2.5rem;
