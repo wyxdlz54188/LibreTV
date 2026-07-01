@@ -150,6 +150,65 @@
         .shortcut-hint.show {
             opacity: 1;
         }
+        .fs-episode-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .fs-episode-btn:hover {
+            background: rgba(0, 204, 255, 0.25);
+            border-color: rgba(0, 204, 255, 0.5);
+        }
+        .fs-episode-btn:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+        .fs-episode-btn.show {
+            display: flex;
+        }
+        .fs-prev-btn {
+            left: 12px;
+        }
+        .fs-next-btn {
+            right: 12px;
+        }
+        .fs-episode-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+        .fs-episode-btn.disabled {
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        @media (max-width: 640px) {
+            .fs-episode-btn {
+                width: 36px;
+                height: 36px;
+            }
+            .fs-episode-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+            .fs-prev-btn {
+                left: 8px;
+            }
+            .fs-next-btn {
+                right: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -182,6 +241,17 @@
                     <div id="error-message">视频加载失败</div>
                     <div style="margin-top: 10px; font-size: 14px; color: #aaa;">请尝试其他视频源或稍后重试</div>
                 </div>
+
+                <button id="fsPrevBtn" class="fs-episode-btn fs-prev-btn" onclick="playPreviousEpisode()" title="上一集">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <button id="fsNextBtn" class="fs-episode-btn fs-next-btn" onclick="playNextEpisode()" title="下一集">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -609,8 +679,11 @@
                     }
                 }
             });
-            // 全屏模式下锁定横屏
+            // 全屏模式下锁定横屏并显示集数按钮
             dp.on('fullscreen', () => {
+                document.getElementById('fsPrevBtn').classList.add('show');
+                document.getElementById('fsNextBtn').classList.add('show');
+                updateFsEpisodeButtons();
                 if (window.screen.orientation && window.screen.orientation.lock) {
                     window.screen.orientation.lock('landscape')
                     .then(() => {
@@ -624,8 +697,10 @@
                 }
             });
             
-            // 全屏取消时解锁屏幕方向
+            // 全屏取消时解锁屏幕方向并隐藏按钮
             dp.on('fullscreen_cancel', () => {
+                document.getElementById('fsPrevBtn').classList.remove('show');
+                document.getElementById('fsNextBtn').classList.remove('show');
                 if (window.screen.orientation && window.screen.orientation.unlock) {
                     window.screen.orientation.unlock();
                 }
@@ -837,6 +912,27 @@
                 nextButton.classList.add('bg-gray-700', 'cursor-not-allowed');
                 nextButton.classList.remove('bg-[#222]', 'hover:bg-[#333]');
                 nextButton.setAttribute('disabled', '');
+            }
+            
+            updateFsEpisodeButtons();
+        }
+        
+        // 更新全屏集数按钮状态
+        function updateFsEpisodeButtons() {
+            const fsPrevBtn = document.getElementById('fsPrevBtn');
+            const fsNextBtn = document.getElementById('fsNextBtn');
+            if (!fsPrevBtn || !fsNextBtn) return;
+            
+            if (currentEpisodeIndex > 0) {
+                fsPrevBtn.classList.remove('disabled');
+            } else {
+                fsPrevBtn.classList.add('disabled');
+            }
+            
+            if (currentEpisodeIndex < currentEpisodes.length - 1) {
+                fsNextBtn.classList.remove('disabled');
+            } else {
+                fsNextBtn.classList.add('disabled');
             }
         }
 
