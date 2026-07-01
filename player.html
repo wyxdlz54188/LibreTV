@@ -530,12 +530,18 @@
                             hls.attachMedia(video);
                             
                             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                                hls.currentLevel = 0;
+                                hls.loadLevel = 0;
                                 hls.nextLevel = 0;
-                                hls.autoLevelEnabled = false;
                                 video.play().catch(e => {
                                     console.warn('自动播放被阻止:', e);
                                 });
+                            });
+                            
+                            hls.on(Hls.Events.LEVEL_SWITCHED, function(event, data) {
+                                if (hls.loadLevel !== 0) {
+                                    hls.loadLevel = 0;
+                                    hls.nextLevel = 0;
+                                }
                             });
                             
                             hls.on(Hls.Events.ERROR, function(event, data) {
@@ -570,10 +576,14 @@
                                         case Hls.ErrorTypes.NETWORK_ERROR:
                                             console.log("尝试恢复网络错误");
                                             hls.startLoad();
+                                            hls.loadLevel = 0;
+                                            hls.nextLevel = 0;
                                             break;
                                         case Hls.ErrorTypes.MEDIA_ERROR:
                                             console.log("尝试恢复媒体错误");
                                             hls.recoverMediaError();
+                                            hls.loadLevel = 0;
+                                            hls.nextLevel = 0;
                                             break;
                                         default:
                                             // 仅在多次恢复尝试后显示错误
